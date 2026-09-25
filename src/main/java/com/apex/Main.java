@@ -138,10 +138,6 @@ public class Main {
                     //Corregir rapidamente tambien que al momento de programar un partido
                     //que el equipo visitante no sea el mismo equipo local, para evitar que se
                     //programen partidos entre el mismo equipo
-
-                    System.out.println("TABLA DE POSICIONES TORNEO " +torneo.getNombre());
-                    System.out.println("-----------------------------------------------");
-                    System.out.println("#----EQUIPO------PUNTOS--GF--GC--DG");
                     torneo.mostrarTablaDePosiciones();
                     break;
 
@@ -157,6 +153,13 @@ public class Main {
 
                 case GENERAR_REPORTE_FINAL:
                     // Generar el reporte final del torneo
+                    torneo.mostrarReporteFinal();
+                    //Quiero que se muestre el campeón
+
+                    //Arreglar el distinguimiento entre partido agendado y partido ya jugado
+                    //Para eso vamos a crear un atributo estado en Partido, y en el stream
+                    //de mostrarPartidos entonces filtramos los que tengan estado de jugado
+
                     break;
 
                 case SALIR:

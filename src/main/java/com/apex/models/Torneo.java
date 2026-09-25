@@ -98,6 +98,9 @@ public class Torneo {
     }
 
     public void mostrarTablaDePosiciones() {
+        System.out.println("TABLA DE POSICIONES TORNEO " +this.getNombre());
+        System.out.println("-----------------------------------------------");
+        System.out.println("#----EQUIPO------PUNTOS--GF--GC--DG");
         for (int i = 0; i < posiciones.size(); i++) {
             Equipo equipo = posiciones.get(i);
 
@@ -105,5 +108,22 @@ public class Torneo {
                     equipo.getPuntos() + "   " + equipo.getGolesAFavor() + "   " +
                     equipo.getGolesEnContra() + "   " + equipo.getDiferenciaDeGoles());
         }
+    }
+
+    public void mostrarReporteFinal() {
+        System.out.println("\nREPORTE FINAL TORNEO " + this.getNombre());
+        System.out.println("----------------------------------------");
+        System.out.println("Equipos participantes: ");
+        this.mostrarEquipos();
+        System.out.println("\n--------------------------------------");
+        System.out.println("---------Tabla de posiciones-----------");
+        this.mostrarTablaDePosiciones();
+        System.out.println("\n--------------------------------------");
+        System.out.println("---------------Partidos----------------");
+        this.mostrarPartidos();
+        System.out.println("\n------------------------------------------------");
+        System.out.println("Nos vemos en una proxima experiencia de campeonato");
+        System.out.println("BYEEEEEE");
+        System.out.println("⚽🏆");
     }
 }

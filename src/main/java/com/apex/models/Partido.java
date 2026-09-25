@@ -34,4 +34,15 @@ public class Partido {
         System.out.println("---------------------------------------------------------------------------");
         System.out.println("Codigo de fecha de acceso: " + this.fecha);
     }
+
+    public void definirPuntos() {
+        if (this.marcadorLocal > this.marcadorVisitante) {
+            this.local.gana();
+        } else if (this.marcadorVisitante > this.marcadorLocal) {
+            this.visitante.gana();
+        } else {
+            this.local.empata();
+            this.visitante.empata();
+        }
+    }
 }

@@ -11,5 +11,9 @@ public abstract class Persona {
         this.edad = edad;
     }
 
-    public abstract void mostrarRol();
+    public String getNombre() {
+        return nombre;
+    }
+
+    public abstract void mostrarCarnet();
 }

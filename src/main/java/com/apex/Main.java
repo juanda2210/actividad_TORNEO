@@ -4,6 +4,7 @@ import com.apex.models.*;
 import com.apex.util.ScannerUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Main {
 
@@ -71,6 +72,7 @@ public class Main {
                         int dorsal = ScannerUtils.capturarNumero("Numero dorsal");
 
                         Persona persona = new Jugador(nombre, documento, edad, posicion, dorsal);
+                        torneo.nuevaPersona(persona);
                         System.out.println("JUGADOR AGREGADO SATISFACTORIAMENTE");
                     } else if (decision == 2) {
                         String nombre = ScannerUtils.capturarTexto("Nombre");
@@ -79,6 +81,7 @@ public class Main {
                         String aniosExp = ScannerUtils.capturarTexto("Años de experiencia");
 
                         Persona persona = new Entrenador(nombre, documento, edad, aniosExp);
+                        torneo.nuevaPersona(persona);
                         System.out.println("ENTRENADOR AGREGADO SATISFACTORIAMENTE");
                     } else {
                         System.err.println("OPCION NO VALIDA DENTRO DEL MENÚ");
@@ -122,17 +125,34 @@ public class Main {
                         System.out.println("MARCADOR REGISTRADO SATISFACTORIAMENTE");
                         System.out.println("--------------------------------------");
                         partido.mostrarResumen();
+
+                        partido.definirPuntos();
+                        torneo.cargarTablaPosiciones();
                     } else {
                         System.err.println("Codigo de fecha no encontrado");
                     }
                     break;
 
                 case MOSTRAR_TABLA_POSICIONES:
-                    // Mostrar la tabla de posiciones
+
+                    //Corregir rapidamente tambien que al momento de programar un partido
+                    //que el equipo visitante no sea el mismo equipo local, para evitar que se
+                    //programen partidos entre el mismo equipo
+
+                    System.out.println("TABLA DE POSICIONES TORNEO " +torneo.getNombre());
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("#----EQUIPO------PUNTOS--GF--GC--DG");
+                    torneo.mostrarTablaDePosiciones();
                     break;
 
                 case BUSCAR_JUGADOR:
                     // Buscar un jugador por nombre
+                    String nombre = ScannerUtils.capturarTexto("Nombre");
+                    Persona persona = torneo.buscarPersona(nombre);
+
+                    if (persona != null && persona instanceof Jugador) {
+                        persona.mostrarCarnet();
+                    }
                     break;
 
                 case GENERAR_REPORTE_FINAL:

@@ -10,7 +10,16 @@ public class Entrenador extends Persona{
     }
 
     @Override
-    public void mostrarRol() {
-        System.out.println("Entrenador");
+    public String getNombre() {
+        return super.getNombre();
+    }
+
+    @Override
+    public void mostrarCarnet() {
+        System.out.println("\n------------------------");
+        System.out.println("Entrenador " + this.nombre);
+        System.out.println("------------------------");
+        System.out.println("Experiencia: " + this.aniosExp + " años");
+        System.out.println("Edad: " + this.edad);
     }
 }

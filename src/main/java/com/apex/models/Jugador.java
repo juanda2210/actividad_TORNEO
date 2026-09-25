@@ -12,7 +12,17 @@ public class Jugador extends Persona{
     }
 
     @Override
-    public void mostrarRol() {
-        System.out.println("Jugador");
+    public String getNombre() {
+        return super.getNombre();
+    }
+
+    @Override
+    public void mostrarCarnet() {
+        System.out.println("\n------------------------");
+        System.out.println("Jugador " + this.nombre);
+        System.out.println("------------------------");
+        System.out.println("Posicion: " + this.posicion.toString());
+        System.out.println("Dorsal: " + this.dorsal);
+        System.out.println("Edad: " + this.edad);
     }
 }

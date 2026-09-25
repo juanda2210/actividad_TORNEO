@@ -2,16 +2,20 @@ package com.apex.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Torneo {
     private String nombre;
     private List<Equipo> equipos;
     private List<Partido> partidos;
+    private List<Persona> personas;
+    private List<Equipo> posiciones;
 
     public Torneo() {
         equipos = new ArrayList<>();
         partidos = new ArrayList<>();
+        posiciones = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -39,24 +43,9 @@ public class Torneo {
                 .orElse(null);
     }
 
-    public void nuevoPartido(Partido partido) {
-        partidos.add(partido);
-    }
-
-    public void mostrarPartidos() {
-        partidos.forEach(partido -> partido.mostrarResumen());
-    }
-
     public void mostrarEquipos() {
         List<String> nombreEquipos = this.getEquipos();
         nombreEquipos.forEach(equipo -> System.out.println(equipo));
-    }
-
-    public Partido seleccionarPartido(LocalDateTime fecha) {
-        return partidos.stream()
-                .filter(partido -> partido.getFecha().isEqual(fecha))
-                .findFirst()
-                .orElse(null);
     }
 
     /*public Equipo seleccionarEquipo(String nombreEquipo) {
@@ -66,5 +55,55 @@ public class Torneo {
                 .orElse(null);
     }*/
 
+    public void nuevoPartido(Partido partido) {
+        partidos.add(partido);
+    }
 
+    public void mostrarPartidos() {
+        partidos.forEach(partido -> partido.mostrarResumen());
+    }
+
+
+    public Partido seleccionarPartido(LocalDateTime fecha) {
+        return partidos.stream()
+                .filter(partido -> partido.getFecha().isEqual(fecha))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void nuevaPersona(Persona persona) {
+        personas.add(persona);
+    }
+
+    public Persona buscarPersona(String nombre) {
+        return personas.stream()
+                .filter(persona -> persona.getNombre().equalsIgnoreCase(nombre))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private List<Equipo> generarPosiciones() {
+        return equipos.stream()
+                .sorted(Comparator.comparingInt(Equipo::getPuntos)
+                        .reversed()
+                        .thenComparing(Comparator.comparingInt(Equipo::getDiferenciaDeGoles)
+                                .reversed())
+                        .thenComparing(Comparator.comparingInt(Equipo::getGolesAFavor)
+                                .reversed()))
+                .toList();
+    }
+
+    public void cargarTablaPosiciones() {
+        this.posiciones = this.generarPosiciones();
+    }
+
+    public void mostrarTablaDePosiciones() {
+        for (int i = 0; i < posiciones.size(); i++) {
+            Equipo equipo = posiciones.get(i);
+
+            System.out.println((i+1) + ". " + equipo.getNombre() + "   " +
+                    equipo.getPuntos() + "   " + equipo.getGolesAFavor() + "   " +
+                    equipo.getGolesEnContra() + "   " + equipo.getDiferenciaDeGoles());
+        }
+    }
 }

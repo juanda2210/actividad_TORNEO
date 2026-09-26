@@ -40,25 +40,20 @@ public class Main {
 
             switch (opcion) {
 
-                case REGISTRAR_EQUIPO:
+                case REGISTRAR_EQUIPO -> {
                     // Registrar un equipo
-                    while (true) {
+                    String nombre = ScannerUtils.capturarEquipo("Nombre del equipo");
 
-                        String nombre = ScannerUtils.capturarEquipo("Nombre del equipo");
-
-                        if (Equipo.verificarNombre(nombre, torneo) != null) {
-                            System.err.println("Ese equipo ya está registrado. Intenta con otro nombre.");
-                            continue;
-                        }
-
-                        Equipo equipo = new Equipo(nombre);
-                        torneo.nuevoEquipo(equipo);
-
-                        System.out.println("Equipo registrado correctamente.");
-                        break;
+                    if (Equipo.verificarNombre(nombre, torneo) != null) {
+                        System.err.println("Ese equipo ya está registrado. Intenta con otro nombre.");
+                        continue;
                     }
 
-                case REGISTRAR_PERSONA:
+                    Equipo equipo = new Equipo(nombre);
+                    torneo.nuevoEquipo(equipo);
+
+                    System.out.println("Equipo registrado correctamente.");
+                } case REGISTRAR_PERSONA -> {
                     // Registrar un jugador o entrenador
                     int decision = ScannerUtils.capturarNumero("""
                             1. Jugador
@@ -85,9 +80,8 @@ public class Main {
                     } else {
                         System.err.println("OPCION NO VALIDA DENTRO DEL MENÚ");
                     }
-                    break;
 
-                case PROGRAMAR_PARTIDO:
+                } case PROGRAMAR_PARTIDO -> {
                     // Programar un partido
                     System.out.println("--------------------Equipos-----------------");
                     torneo.mostrarEquipos();
@@ -102,20 +96,20 @@ public class Main {
                         try {
                             Partido partido = new Partido(local, visitante);
                             torneo.nuevoPartido(partido);
+                            System.out.println("PARTIDO AGENDADO SATISFACTORIAMENTE");
                         } catch (IllegalArgumentException e) {
                             System.err.println(e.getMessage());
                         }
                     } else {
                         System.err.println("Alguno de los dos equipos no han sido encontrados");
                     }
-                    break;
 
-                case REGISTRAR_RESULTADO:
+                } case REGISTRAR_RESULTADO -> {
                     // Registrar el resultado de un partido
-                    System.out.println("------------------Partidos------------------");
+                    System.out.println("------------------Partidos------------------\n");
                     torneo.mostrarPartidosAgendados();
                     System.out.println("--------------------------------------------");
-                    LocalDateTime fecha = ScannerUtils.capturarFecha("Codigo de fecha");
+                    LocalDateTime fecha = ScannerUtils.capturarFecha("Escriba el código de fecha para registrar marcador");
                     Partido partido = torneo.seleccionarPartido(fecha);
 
                     if (partido != null) {
@@ -132,39 +126,37 @@ public class Main {
 
                         partido.partidoJugado();
                         partido.definirPuntos();
+                        partido.definirGoles();
                         torneo.cargarTablaPosiciones();
                     } else {
                         System.err.println("Codigo de fecha no encontrado");
                     }
-                    break;
 
-                case MOSTRAR_TABLA_POSICIONES:
+                } case MOSTRAR_TABLA_POSICIONES -> {
                     torneo.mostrarTablaDePosiciones();
-                    break;
+                }
 
-                case BUSCAR_JUGADOR:
+                case BUSCAR_JUGADOR -> {
                     // Buscar un jugador por nombre
                     String nombre = ScannerUtils.capturarTexto("Nombre");
                     Persona persona = torneo.buscarPersona(nombre);
 
                     if (persona != null && persona instanceof Jugador) {
                         persona.mostrarCarnet();
+                    } else {
+                        System.err.println("Este no es un jugador registrado");
                     }
-                    break;
 
-                case GENERAR_REPORTE_FINAL:
+                } case GENERAR_REPORTE_FINAL -> {
                     // Generar el reporte final del torneo
                     torneo.mostrarReporteFinal();
 
-                    break;
 
-                case SALIR:
-                    System.out.println("Saliendo del programa...");
-                    return;
+                } case SALIR -> System.exit(0);
 
-                default:
+                default -> {
                     System.out.println("Opción no válida. Intenta nuevamente.");
-                    break;
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ public class Torneo {
     public Torneo() {
         equipos = new ArrayList<>();
         partidos = new ArrayList<>();
+        personas = new ArrayList<>();
         posiciones = new ArrayList<>();
     }
 

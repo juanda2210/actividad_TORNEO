@@ -15,7 +15,6 @@ public class Equipo {
         this.puntos = 0;
         this.golesAFavor = 0;
         this.golesEnContra = 0;
-        this.diferenciaDeGoles = this.golesAFavor - this.golesEnContra;
     }
 
     public String getNombre() {
@@ -38,6 +37,18 @@ public class Equipo {
         return puntos;
     }
 
+    public void setGolesAFavor(int golesAFavor) {
+        this.golesAFavor += golesAFavor;
+    }
+
+    public void setGolesEnContra(int golesEnContra) {
+        this.golesEnContra += golesEnContra;
+    }
+
+    public void evaluarDiferenciaDeGoles() {
+        this.diferenciaDeGoles = this.golesAFavor - this.golesEnContra;
+    }
+
     public void gana() {
         this.puntos += 3;
     }
@@ -53,8 +64,4 @@ public class Equipo {
                 .findFirst()
                 .orElse(null);
     }
-
-
-
-
 }

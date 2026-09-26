@@ -44,16 +44,16 @@ public class Partido {
     public void mostrarResumen() {
         System.out.println("\nPARTIDO DEL DIA " + this.fecha.getDayOfMonth() + "/" + this.fecha.getMonth());
         System.out.println("---------------------------------------------------------------------------");
-        System.out.println(this.local + " " + marcadorLocal + " VS " + marcadorVisitante + " " + this.visitante);
+        System.out.println(this.local.getNombre() + " " + marcadorLocal + " VS " + marcadorVisitante + " " + this.visitante.getNombre());
         System.out.println("---------------------------------------------------------------------------");
     }
 
     public void mostrarFecha() {
-        System.out.println("\nPARTIDO DEL DIA " + this.fecha.getDayOfMonth() + "/" + this.fecha.getMonth());
+        System.out.println("PARTIDO DEL DIA " + this.fecha.getDayOfMonth() + "/" + this.fecha.getMonth());
         System.out.println("---------------------------------------------------------------------------");
-        System.out.println(this.local + " " + " VS " + " " + this.visitante);
+        System.out.println(this.local.getNombre() + " " + " VS " + " " + this.visitante.getNombre());
         System.out.println("---------------------------------------------------------------------------");
-        System.out.println("Codigo de fecha de acceso: " + this.fecha);
+        System.out.println("Codigo de fecha de acceso: " + this.fecha + "\n");
     }
 
     public void definirPuntos() {
@@ -65,6 +65,16 @@ public class Partido {
             this.local.empata();
             this.visitante.empata();
         }
+    }
+
+    public void definirGoles() {
+        this.local.setGolesAFavor(this.marcadorLocal);
+        this.local.setGolesEnContra(this.marcadorVisitante);
+        this.local.evaluarDiferenciaDeGoles();
+
+        this.visitante.setGolesAFavor(this.marcadorVisitante);
+        this.visitante.setGolesEnContra(this.marcadorLocal);
+        this.visitante.evaluarDiferenciaDeGoles();
     }
 
 

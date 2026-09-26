@@ -42,7 +42,21 @@ public class ScannerUtils {
         return dato;
     }
 
+
     public static LocalDateTime capturarFecha(String mensaje) {
+        while (true) {
+            System.out.println(mensaje + " (yyyy-MM-ddTHH:mm:ss): ");
+            String entrada = SCANNER.nextLine();
+
+            try {
+                return LocalDateTime.parse(entrada);
+            } catch (DateTimeParseException e) {
+                System.out.println("Fecha no válida. Utiliza el formato yyyy-MM-ddTHH:mm:ss.");
+            }
+        }
+    }
+
+    /*public static LocalDateTime capturarFecha(String mensaje) {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         while (true) {
@@ -55,7 +69,7 @@ public class ScannerUtils {
                 System.out.println("Fecha no válida. Utiliza el formato dd/MM/yyyy HH:mm.");
             }
         }
-    }
+    }*/
 
     public static String capturarEquipo(String mensaje) {
         String nombre;

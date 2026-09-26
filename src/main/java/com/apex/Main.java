@@ -4,7 +4,6 @@ import com.apex.models.*;
 import com.apex.util.ScannerUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Main {
 
@@ -94,13 +93,18 @@ public class Main {
                     torneo.mostrarEquipos();
                     System.out.println("--------------------------------------------\n");
                     String nombreLocal = ScannerUtils.capturarTexto("Seleccione local");
-                    Equipo local = torneo.buscarEquipo(nombreLocal);
                     String nombreVisitante = ScannerUtils.capturarTexto("Seleccione visitante");
+
+                    Equipo local = torneo.buscarEquipo(nombreLocal);
                     Equipo visitante = torneo.buscarEquipo(nombreVisitante);
 
                     if (local != null && visitante != null) {
-                        Partido partido = new Partido(local, visitante);
-                        torneo.nuevoPartido(partido);
+                        try {
+                            Partido partido = new Partido(local, visitante);
+                            torneo.nuevoPartido(partido);
+                        } catch (IllegalArgumentException e) {
+                            System.err.println(e.getMessage());
+                        }
                     } else {
                         System.err.println("Alguno de los dos equipos no han sido encontrados");
                     }
@@ -109,7 +113,7 @@ public class Main {
                 case REGISTRAR_RESULTADO:
                     // Registrar el resultado de un partido
                     System.out.println("------------------Partidos------------------");
-                    torneo.mostrarPartidos();
+                    torneo.mostrarPartidosAgendados();
                     System.out.println("--------------------------------------------");
                     LocalDateTime fecha = ScannerUtils.capturarFecha("Codigo de fecha");
                     Partido partido = torneo.seleccionarPartido(fecha);
@@ -126,6 +130,7 @@ public class Main {
                         System.out.println("--------------------------------------");
                         partido.mostrarResumen();
 
+                        partido.partidoJugado();
                         partido.definirPuntos();
                         torneo.cargarTablaPosiciones();
                     } else {
@@ -134,10 +139,6 @@ public class Main {
                     break;
 
                 case MOSTRAR_TABLA_POSICIONES:
-
-                    //Corregir rapidamente tambien que al momento de programar un partido
-                    //que el equipo visitante no sea el mismo equipo local, para evitar que se
-                    //programen partidos entre el mismo equipo
                     torneo.mostrarTablaDePosiciones();
                     break;
 
@@ -154,11 +155,6 @@ public class Main {
                 case GENERAR_REPORTE_FINAL:
                     // Generar el reporte final del torneo
                     torneo.mostrarReporteFinal();
-                    //Quiero que se muestre el campeón
-
-                    //Arreglar el distinguimiento entre partido agendado y partido ya jugado
-                    //Para eso vamos a crear un atributo estado en Partido, y en el stream
-                    //de mostrarPartidos entonces filtramos los que tengan estado de jugado
 
                     break;
 

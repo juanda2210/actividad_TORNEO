@@ -59,8 +59,28 @@ public class Torneo {
         partidos.add(partido);
     }
 
-    public void mostrarPartidos() {
-        partidos.forEach(partido -> partido.mostrarResumen());
+
+    private List<Partido> partidosJugados() {
+        return partidos.stream()
+                .filter(partido -> partido.getEstadoDePartido() == EstadoDePartido.JUGADO)
+                .toList();
+    }
+
+
+    private void mostrarPartidos() {
+        List <Partido> partidosJugados = this.partidosJugados();
+        partidosJugados.forEach(partido -> partido.mostrarResumen());
+    }
+
+    private List<Partido> partidosAgendados() {
+        return partidos.stream()
+                .filter(partido -> partido.getEstadoDePartido() == EstadoDePartido.AGENDADO)
+                .toList();
+    }
+
+    public void mostrarPartidosAgendados() {
+        List<Partido> partidosAgendados = this.partidosAgendados();
+        partidosAgendados.forEach(partido -> partido.mostrarFecha());
     }
 
 
@@ -110,9 +130,18 @@ public class Torneo {
         }
     }
 
+    public Equipo campeon() {
+        return posiciones.stream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public void mostrarReporteFinal() {
         System.out.println("\nREPORTE FINAL TORNEO " + this.getNombre());
         System.out.println("----------------------------------------");
+        Equipo equipoCampeon = this.campeon();
+        System.out.println("Campeón: " + equipoCampeon.getNombre());
+        System.out.println("\n--------------------------------------");
         System.out.println("Equipos participantes: ");
         this.mostrarEquipos();
         System.out.println("\n--------------------------------------");
